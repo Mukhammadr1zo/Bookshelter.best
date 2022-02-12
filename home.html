@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/images/book.svg" />
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./bootstrap/bootstrap.min.css" />
+    <title>BookShelter</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <h1 class="visually-hidden">BookShelter</h1>
+      <nav class="navbar">
+        <div class="container d-flex">
+          <a href="#"><img src="./images/logo-home.svg" alt="logo-home" /></a>
+
+          <input
+            class="search w-50"
+            type="search"
+            placeholder="Search books"
+            aria-label="Search"
+          />
+
+          <div>
+            <button class="night-btn">
+              <img src="./images/night.svg" alt="" />
+            </button>
+            <button class="btn btn-primary logout" type="submit">Logout</button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="container ranking">
+        <div class="show-result-box d-flex justify-content-between">
+          <h2 class="result-header">
+            Showing <span class="books-result"> </span> Result(s)
+          </h2>
+
+          <button class="rank-btn btn btn-secondary" type="button">Order by newest</button>
+        </div>
+      </section>
+      <section class="container">
+        <div class="row">
+          <!-- BOOKMARK -->
+          <div class="bookmark-section col-lg-3">
+            <h3 class="bookmark-header">Bookmark</h3>
+            <p class="bookmark-desc">
+              If you don’t like to read, you haven’t found the right book
+            </p>
+            <ul class="bookmarked list-unstyled">
+              <li
+                class="bookmark-item d-flex justify-content-between align-items-center"
+              >
+                <div class="box-info">
+                  <h4 class="bookmark-item-header">Python</h4>
+                  <p class="bookmark-item-desc">David M. Beazley</p>
+                </div>
+                <div class="booked-books">
+                  <button class="night-btn reader">
+                    <img src="./images/book-open.svg" alt="" />
+                  </button>
+                  <button class="night-btn btn-remove">
+                    <img src="./images/delete.svg" alt="" />
+                  </button>
+                </div>
+              </li>
+              <li
+                class="bookmark-item d-flex justify-content-between align-items-center"
+              >
+                <div class="box-info">
+                  <h4 class="bookmark-item-header">Python</h4>
+                  <p class="bookmark-item-desc">David M. Beazley</p>
+                </div>
+                <div class="btn-box">
+                  <button class="night-btn">
+                    <img src="./images/book-open.svg" alt="" />
+                  </button>
+                  <button class="night-btn">
+                    <img src="./images/delete.svg" alt="" />
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- -----------BOOK LIST---------- -->
+          <div class="book-lists col-lg-9">
+            <ul class="books-list list-unstyled d-flex flex-wrap">
+              <template class="template">
+                <li class="books-item item-box d-flex flex-column">
+                  <img
+                    class="item-img"
+                    src="./images/item-img.png"
+                    alt="item-img"
+                  />
+                  <div class="box-info2">
+                    <h4 class="bookmark-item-header item-title">Python</h4>
+                    <p class="bookmark-item-desc item-desc">David M. Beazley</p>
+                    <p class="bookmark-item-desc item-year">2009</p>
+                  </div>
+                  <div class="d-flex btn-box">
+                    <button class="any-btn btn btn-warning w-50 bookmark-btn">
+                      Book
+                    </button>
+                    <button
+                      class="any-btn2 btn btn-info btn-light w-50 text-info"
+                      id="myBtn"
+                    >
+                      More Info
+                    </button>
+                  </div>
+                  <a
+                    href=""
+                    target="_blank"
+                    class="any-btn read btn btn-secondary w-100 text-light"
+                  >
+                    Read
+                  </a>
+                </li>
+              </template>
+            </ul>
+            <div class="pagination-wrapper d-flex align-items-center">
+              <button class="prev-btn page-btn btn btn-primary">Previous</button>
+              <ul class="pagination  overflow-hidden d-flex align-items-center">
+            
+              </ul>
+              <button class="next-btn btn page-btn btn-primary">Next</button>
+             </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3 class="modal-title mb-5">Python</h3>
+        <img class="modal-img" src="./images/books.png" alt="" />
+        <p class="modal-desc">
+          Culpa nulla pariatur cupidatat nisi incididunt ea do ipsum. Incididunt
+          quis mollit elit commodo cillum eiusmod reprehenderit labore irure.
+          Cillum et incididunt et nostrud exercitation quis aute laboris non ut
+          adipisicing. Laboris ad minim aute nulla proident deserunt velit anim
+          sunt aliquip ut sit. Exercitation aliquip ullamco officia non aliqua.
+          Sint deserunt aliquip veniam id eiusmod sit consectetur mollit ea
+          aliqua officia consequat. Magna non mollit nisi est commodo voluptate
+          aute id. Deserunt nostrud id do in nisi mollit deserunt non. Pariatur
+          fugiat cillum irure elit sint nisi ad ipsum culpa deserunt cupidatat
+          esse consequat laboris. Id aliquip non consectetur esse proident duis
+          Lorem.
+        </p>
+
+        <h6 class="modal-infos">
+          Author: <span class="modal-span author">John Wesley Hall</span>
+        </h6>
+        <h6 class="modal-infos">
+          Published: <span class="modal-span published">2005</span>
+        </h6>
+        <h6 class="modal-infos">
+          Publishers: <span class="modal-span publisher">Sam Publishing</span>
+        </h6>
+        <h6 class="modal-infos">
+          Categories: <span class="modal-span categories">Computers</span>
+        </h6>
+        <h6 class="modal-infos">
+          Pages Count: <span class="modal-span pages">316</span>
+        </h6>
+
+        <a href="http://books.google.co.uz/books?id=eXd_eNdm_j8C&pg=PA254&dq=search+terms.thumbnail&hl=&cd=1&source=gbs_api" class="read-btn btn btn-secondary text-light">Read</a>
+      </div>
+    </div>
+
+    <script src="./js/script.js"></script>
+  </body>
+</html>

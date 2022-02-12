@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="icon" type="image/x-icon" href="/images/book.svg" />
+
+    <title>Login</title>
+  </head>
+  <body class="login-body">
+    <main class="main">
+      <section class="login">
+        <form class="form container forma" action="">
+          <img class="text-center mx-4" src="./images/logo.svg" alt="Logo" />
+          <div class="mt-5">
+            <input
+              class="input-username"
+              type="text"
+              placeholder="Username"
+              name="username"
+              required
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="mt-3">
+            <input
+              class="input-password"
+              type="password"
+              placeholder="Password"
+              name="password"
+              required
+              autocomplete="off"
+            />
+          </div>
+
+          <button class="login-btn mt-3 mb-3" type="submit">Login</button>
+        </form>
+      </section>
+    </main>
+
+    <script src="./js/login.js"></script>
+  </body>
+</html>
