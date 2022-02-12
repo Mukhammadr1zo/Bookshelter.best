@@ -15,13 +15,14 @@ let elPrevBtn = document.querySelector(".prev-btn");
 let elNextBtn = document.querySelector(".next-btn");
 let elRankBox = document.querySelector(".ranking");
 let rankBtn = document.querySelector(".rank-btn");
-let btnBox = document.querySelector(".btn-box");
 let elBookBtn = document.querySelector(".book");
 let elBookmark = document.querySelector(".booked-books");
+let elBookmarkBtn = document.querySelector(".bookmark-btn");
 
 let search = "search";
 let page = 1;
 let newest = "";
+let bookedArr = [];
 
 if (!localToken) {
   window.location.replace("index.html");
@@ -40,8 +41,6 @@ elList.addEventListener("click", function (evt) {
 });
 
 const renderBooks = function (arr, element) {
-  let bookedArr = [];
-
   const booksFragment = document.createDocumentFragment();
 
   arr.forEach((items) => {
@@ -57,80 +56,50 @@ const renderBooks = function (arr, element) {
       items.volumeInfo.publishedDate;
     clonedBookTemplate.querySelector(".read").href =
       items.volumeInfo.previewLink;
+    clonedBookTemplate.querySelector(".bookmark-btn").dataset.bookmarkBtn =
+      items.id;
 
     booksFragment.appendChild(clonedBookTemplate);
-  });
-
-  btnBox.addEventListener("click", (evt) => {
-    if (evt.target.matches(".book")) {
-      let bookBtnId = evt.target.dataset.btn;
-      if (!bookedArr.includes(items)) {
-        if (items.id == bookBtnId) {
-          bookedArr.push(items);
-        }
-      }
-    }
-    elBookmark.innerHTML = "";
-    renderBookmark(bookedArr, elBookmark);
-  });
-
-  elBookmark.addEventListener("click", (evt) => {
-    if (evt.target.matches(".btn-remove")) {
-      let bookedBookId = evt.target.dataset.idBookedItem;
-      let bookedRemoveId = evt.target.dataset.idBookedRemove;
-      const bookMarkIndex = bookedArr.findIndex(
-        () => bookedBookId == bookedRemoveId
-      );
-      bookedArr.splice(bookMarkIndex, 1);
-      elBookmark.innerHTML = null;
-      renderBookmark(bookedArr, elBookmark);
-    }
   });
 
   element.appendChild(booksFragment);
 };
 
 let renderBookmark = (data, element) => {
-  for (let bookmark of data) {
-    let newBookedItem = document.createElement("li");
-    let newBookedItemBoxInfo = document.createElement("div");
-    let newBookedItemBoxHeader = document.createElement("h4");
-    let newBookedItemBoxDesc = document.createElement("p");
-    let newBookedItemBoxBtn = document.createElement("div");
-    let newBookedRemoveBtn = document.createElement("btn");
-    let newBookedItemBoxBtnRead = document.createElement("btn");
-    let newBookedRemoveImgRem = document.createElement("img");
-    let newBookedRemoveImgRead = document.createElement("img");
+  element.innerHTML = "";
+  data.forEach((book) => {
+    const html = `
+    <li
+    class="bookmark-item d-flex justify-content-between align-items-center"
+  >
+    <div class="box-info">
+      <h4 class="bookmark-item-header">${book.volumeInfo.title}</h4>
+      <p class="bookmark-item-desc">${book.volumeInfo.authors}</p>
+    </div>
+    <div class="booked-book">
+      <a href="${book.volumeInfo.previewLink}" class="night-btn reader " target="_blank">
+        <img src="./images/book-open.svg" alt="" />
+      </a>
+      <button class="night-btn btn-remove " data-removeBtnId="${book.id}">
+        <img class="btn-remove" data-removeBtnId="${book.id}" src="./images/delete.svg" alt="" />
+      </button>
+    </div>
+  </li>
+    `;
 
-    newBookedItem.setAttribute(
-      "class",
-      "bookmark-item d-flex justify-content-between align-items-center"
-    );
-    newBookedItemBoxInfo.setAttribute("class", "box-info");
-    newBookedItemBoxHeader.setAttribute("class", "bookmark-item-header");
-    newBookedItemBoxDesc.setAttribute("class", "bookmark-item-desc");
-    newBookedItemBoxBtn.setAttribute("class", "booked-books");
-    newBookedRemoveBtn.setAttribute("class", "night-btn btn-remove");
-    newBookedItemBoxBtnRead.setAttribute("class", "night-btn reader");
-    newBookedRemoveImgRem.setAttribute("src", "./images/delete.svg");
-    newBookedRemoveImgRead.setAttribute("src", "./images/book-open.svg");
-
-    newBookedItemBoxHeader.textContent = bookmark.volumeInfo.title;
-    newBookedItemBoxDesc.textContent = bookmark.volumeInfo.subtitle;
-    bookmark.newBookedItem.dataset.idBookedItem = bookmark.id;
-    newBookedRemoveBtn.dataset.idBookmarkRemove = bookmark.id;
-
-    element.appendChild(newBookedItem);
-    newBookedItem.append(newBookedItemBoxInfo);
-    newBookedItemBoxInfo.append(newBookedItemBoxHeader);
-    newBookedItemBoxInfo.append(newBookedItemBoxDesc);
-    newBookedItem.append(newBookedItemBoxBtn);
-    newBookedItemBoxBtn.appendChild(newBookedItemBoxBtnRead);
-    newBookedItemBoxBtn.appendChild(newBookedRemoveBtn);
-    newBookedItemBoxBtnRead.appendChild(newBookedRemoveImgRead);
-    newBookedRemoveBtn.appendChild(newBookedRemoveImgRem);
-  }
+    element.insertAdjacentHTML("beforeend", html);
+  });
 };
+elBookmark.addEventListener("click", (evt) => {
+  if (evt.target.matches(".btn-remove")) {
+    let btnRemove = evt.target.dataset.removebtnid;
+
+    let findBook = bookedArr.findIndex((book) => btnRemove == book.id);
+    bookedArr.splice(findBook, 1);
+    elBookmark.innerHTML = null;
+    renderBookmark(bookedArr, elBookmark);
+  }
+});
 
 const getBooks = async function () {
   const response = await fetch(
@@ -139,6 +108,22 @@ const getBooks = async function () {
 
   const data = await response.json();
   elResult.textContent = data.totalItems;
+
+  elList.addEventListener("click", (evt) => {
+    if (evt.target.matches(".bookmark-btn")) {
+      let bookBtnId = evt.target.dataset.bookmarkBtn;
+
+      let findBook = data.items.find((book) => bookBtnId === book.id);
+      if (!bookedArr.includes(findBook)) {
+        if (findBook != undefined) {
+          bookedArr.push(findBook);
+        }
+      } else {
+        alert("Bu kitob Qo'shilgan");
+      }
+      renderBookmark(bookedArr, elBookmark);
+    }
+  });
 
   if (data.items.length > 0) {
     renderBooks(data.items, elList);
@@ -173,7 +158,7 @@ const getBooks = async function () {
 
   selectedPagination.forEach((item) => {
     item.addEventListener("click", function () {
-      const pageNumber = Number(item.innerHTML);
+      const pageNumber = Number(item.innerHTML) * 10;
 
       page = pageNumber;
 
